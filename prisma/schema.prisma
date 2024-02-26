@@ -1,0 +1,30 @@
+datasource db {
+    url      = env("DATABASE_URL")
+    provider = "postgresql"
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+enum TipoTransacao {
+    d
+    c
+}
+
+model Cliente {
+    id         Int          @id @default(autoincrement())
+    limite     Int
+    saldo      Int          @default(0)
+    Transacoes Transacoes[]
+}
+
+model Transacoes {
+    id           Int           @id @default(autoincrement())
+    Cliente      Cliente       @relation(fields: [clienteId], references: [id])
+    clienteId    Int
+    valor        Int
+    tipo         TipoTransacao
+    descricao    String
+    realizada_em DateTime
+}
