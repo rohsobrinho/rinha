@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client'
+import rawSQL from './raw';
 const prisma = new PrismaClient()
 
 const Clientes = [
@@ -10,15 +11,30 @@ const Clientes = [
 ]
 
 async function main() {
-    for(const c in Clientes){
+    for await(const c of Clientes){
         await prisma.cliente.upsert({
-          where: { id: Clientes[c].id },
+          where: { id: c.id },
           update: {},
           create: {
-            limite: Clientes[c].limite
+            limite: c.limite
           },
         })
     }
+
+    async function executeRawSQL() {
+      for await (const sqlToExecute of rawSQL.execute) {
+        const regexToHiddenTerms = [
+          { regex: /PASSWORD '[^'"]*'(?=(?:[^"]*"[^"]*")*[^"]*$)/g, replace: "PASSWORD '**hidden**'" },
+        ];
+        let sqlToLog = sqlToExecute;
+        regexToHiddenTerms.forEach(({ regex, replace }) => (sqlToLog = sqlToLog.replace(regex, replace)));
+        console.log(sqlToLog);
+        await prisma.$executeRawUnsafe(sqlToExecute);
+      }
+    }
+  
+    // RAW SQL
+    await executeRawSQL();
 }
 main()
   .then(async () => {
