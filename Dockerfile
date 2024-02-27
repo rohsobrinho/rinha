@@ -5,11 +5,13 @@ RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 # Copy app dependency files
-ADD package.json yarn.lock /tmp/
+COPY package.json yarn.lock /tmp/
 
 # Install packages and link to tmp file
 RUN cd /tmp && yarn
-RUN cd /usr/src/app && ln -s /tmp/node_modules
+
+COPY /tmp/node_modules node_modules
+COPY /usr/src/app/package.json .
 
 EXPOSE 3000
 
