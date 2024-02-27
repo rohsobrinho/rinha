@@ -20,9 +20,6 @@ ENV NODE_ENV=production
 FROM base AS release
 COPY --from=install /temp/dev/node_modules node_modules
 COPY --from=prerelease /usr/src/app/package.json .
+COPY --from=prerelease /usr/src/app/prisma prisma
 
 EXPOSE 3000
-
-CMD ["yarn", "prisma", "generate"]
-CMD ["yarn", "ts-node", "./prisma/seed.ts"]
-CMD [ "yarn", "nodemon" ]
