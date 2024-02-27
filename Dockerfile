@@ -9,9 +9,9 @@ COPY package.json yarn.lock /tmp/
 
 # Install packages and link to tmp file
 RUN cd /tmp && yarn
+COPY . .
 
 COPY /tmp/node_modules node_modules
-COPY /usr/src/app/package.json .
 
 EXPOSE 3000
 
