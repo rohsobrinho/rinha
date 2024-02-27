@@ -23,6 +23,8 @@ services:
         limits:
           cpus: "0.6"
           memory: "200MB"
+    networks:
+      - app_network 
 
   api02:
     # Essa sintaxe reusa o que foi declarado em 'api01'.
@@ -45,11 +47,15 @@ services:
     ports:
         # Obrigatório expor/usar a porta 9999 no load balancer!
       - "9999:9999" 
+    expose:
+      - "9999"
     deploy:
       resources:
         limits:
           cpus: "0.17"
           memory: "10MB"
+    networks:
+      - app_network 
 
   db:
     image: postgres:latest
@@ -62,6 +68,11 @@ services:
       - "5432:5432"
     volumes:
       - ./script.sql:/docker-entrypoint-initdb.d/script.sql
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready']
+      interval: 3s
+      timeout: 5s
+      retries: 10
     deploy:
       resources:
         limits:
@@ -71,6 +82,8 @@ services:
           # um exemplo – distribua como quiser.
           cpus: "0.13"
           memory: "140MB"
+    networks:
+      - app_network 
 
 # O uso do modo `bridge` deve ser adequado à carga que será usada no teste.
 # A edição anterior se beneficiou do modo host pois o volume de requisições
@@ -79,6 +92,5 @@ services:
 # modo que quiser desde que não conflite com portas trivialmente usadas em um
 # SO.
 networks:
-  default:
+  app_network:
     driver: bridge
-    name: rinha-nginx-2024q1
