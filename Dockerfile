@@ -23,6 +23,6 @@ COPY --from=prerelease /usr/src/app/package.json .
 
 EXPOSE 3000
 
-CMD ["yarn", "prisma:generate"]
-CMD ["yarn", "prisma:seed"]
-CMD [ "yarn", "start" ]
+CMD ["yarn", "prisma", "generate"]
+CMD ["yarn", "ts-node", "./prisma/seed.ts"]
+CMD [ "yarn", "nodemon" ]
