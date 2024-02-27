@@ -25,4 +25,4 @@ EXPOSE 3000
 
 CMD ["yarn", "prisma:generate"]
 CMD ["yarn", "prisma:seed"]
-ENTRYPOINT [ "yarn", "start" ]
+CMD [ "yarn", "start" ]
