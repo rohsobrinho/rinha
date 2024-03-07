@@ -6,13 +6,14 @@ WORKDIR /usr/src/app
 FROM base AS install
 RUN mkdir -p /temp/dev
 COPY package.json yarn.lock tsconfig.json /temp/dev/
-RUN cd /temp/dev && yarn install --frozen-lockfile && yarn tsc --watch
+RUN cd /temp/dev && yarn install --frozen-lockfile
 
 # copy node_modules from temp directory
 # then copy all (non-ignored) project files into the image
 FROM base AS prerelease
 COPY --from=install /temp/dev/node_modules node_modules
 COPY . .
+RUN yarn tsc --watch
 
 ENV NODE_ENV=production
 
