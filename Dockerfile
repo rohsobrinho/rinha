@@ -5,7 +5,7 @@ WORKDIR /usr/src/app
 # this will cache them and speed up future builds
 FROM base AS install
 RUN mkdir -p /temp/dev
-COPY package.json yarn.lock tsconfig.json /temp/dev/
+COPY package.json yarn.lock tsconfig.json index.ts /temp/dev/
 RUN cd /temp/dev && yarn install --frozen-lockfile
 
 # copy node_modules from temp directory
