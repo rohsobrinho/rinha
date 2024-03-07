@@ -76,7 +76,7 @@ app.get('/clientes/:id/extrato', async (req, res) => {
             data_extrato: new Date(),
             limite: cliente.limite
         },
-        ultimas_transacoes: cliente.Transacoes.map(transacao => ({
+        ultimas_transacoes: cliente.Transacoes.map((transacao: any) => ({
             valor: transacao.valor,
             tipo: transacao.tipo,
             descricao: transacao.descricao,
