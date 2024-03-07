@@ -5,14 +5,15 @@ WORKDIR /usr/src/app
 # this will cache them and speed up future builds
 FROM base AS install
 RUN mkdir -p /temp/dev
-COPY package.json yarn.lock tsconfig.json index.ts /temp/dev/
-RUN cd /temp/dev && yarn install --frozen-lockfile
+COPY package.json yarn.lock index.ts /temp/dev/
+RUN cd /temp/dev && ls -l && yarn install --frozen-lockfile
 
 # copy node_modules from temp directory
 # then copy all (non-ignored) project files into the image
 FROM base AS prerelease
 COPY --from=install /temp/dev/node_modules node_modules
 COPY . .
+RUN ls -l
 
 ENV NODE_ENV=production
 
