@@ -13,7 +13,7 @@ RUN cd /temp/dev && yarn install --frozen-lockfile
 FROM base AS prerelease
 COPY --from=install /temp/dev/node_modules node_modules
 COPY . .
-RUN yarn tsc --watch
+RUN yarn tsc
 
 ENV NODE_ENV=production
 
