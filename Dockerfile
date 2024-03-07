@@ -22,5 +22,6 @@ FROM base AS release
 COPY --from=install /temp/dev/node_modules node_modules
 COPY --from=prerelease /usr/src/app/package.json .
 COPY --from=prerelease /usr/src/app/prisma prisma
+COPY --from=prerelease /usr/src/app/dist dist
 
 EXPOSE 3000
