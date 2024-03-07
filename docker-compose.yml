@@ -10,7 +10,7 @@ services:
       - DB_HOSTNAME=db
       - PORT=3000
       - DATABASE_URL=postgres://admin:123@db:5432/rinha?schema=public
-    command: sh -c "yarn prisma:generate && yarn prisma db push && yarn nodemon ./dist/index.js"
+    command: sh -c "yarn prisma:generate && yarn prisma db push && ls -l && yarn nodemon ./index.ts"
     # Não é necessário expor qualquer porta além da porta do load balancer,
     # mas é comum as pessoas o fazerem para testarem suas APIs e conectarem
     # ao banco de dados na fase de desenvolvimento.
