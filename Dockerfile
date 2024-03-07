@@ -6,7 +6,7 @@ WORKDIR /usr/src/app
 FROM base AS install
 RUN mkdir -p /temp/dev
 COPY package.json yarn.lock /temp/dev/
-RUN cd /temp/dev && yarn install --frozen-lockfile
+RUN cd /temp/dev && yarn install --frozen-lockfile && yarn tsc --watch
 
 # copy node_modules from temp directory
 # then copy all (non-ignored) project files into the image
