@@ -9,8 +9,8 @@ services:
     environment:
       - DB_HOSTNAME=db
       - PORT=3000
-      - DATABASE_URL=postgres://admin:123@localhost:5432/rinha?schema=public
-    command: sh -c "yarn prisma:generate && yarn prisma db push && yarn nodemon ./index.ts"
+      - DATABASE_URL=postgres://admin:123@db:5432/rinha?schema=public
+    command: sh -c "yarn prisma:generate && yarn prisma db push && yarn install && yarn nodemon ./dist/index.js"
     # Não é necessário expor qualquer porta além da porta do load balancer,
     # mas é comum as pessoas o fazerem para testarem suas APIs e conectarem
     # ao banco de dados na fase de desenvolvimento.
@@ -66,8 +66,6 @@ services:
       - POSTGRES_DB=rinha
     ports:
       - "5432:5432"
-    volumes:
-      - ./script.sql:/docker-entrypoint-initdb.d/script.sql
     healthcheck:
       test: ['CMD-SHELL', 'pg_isready']
       interval: 3s
